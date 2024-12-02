@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,6 @@ using Xunit;
 
 namespace my_finance.Tests.Controllers;
 
-// add payment
 // list all payments
 // list current month payments
 // list payments history
@@ -27,7 +27,7 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public async void PaymentController_ShouldReturn_Ok()
+    public async void ShouldReturn_Created201_AndTotalSum()
     {
         // given
         Payment payment = new("01", 2000, "AED", "HSBC", DateTime.Now);
@@ -39,8 +39,22 @@ public class PaymentsControllerTest
         createdResult.Value.Should().BeOfType<decimal>();
         createdResult.Value.Should().Be(2000);
     }
-    
-    
+
+    [Fact]
+    public async void ShouldReturn_ListOfPayments()
+    {
+        // given
+        List<Payment> paymentsList = [];
+        
+        // when
+        var result = await _controller.AllPayments();
+        
+        //then
+        result.Should().BeOfType<OkObjectResult>();
+        var resultValue = (OkObjectResult)result;
+        resultValue.Value.Should().BeOfType<List<Payment>>();
+        resultValue.Value.Should().BeEquivalentTo(paymentsList);
+    }
 
 
 }

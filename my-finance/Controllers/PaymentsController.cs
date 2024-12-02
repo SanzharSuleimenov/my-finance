@@ -22,6 +22,12 @@ public class PaymentsController: ControllerBase
         _payments.Add(payment);
         return Created("", _payments.Sum(p => p.Amount));
     }
-    
-    
+
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> AllPayments()
+    {
+        return Ok(_payments);
+    }
 }
