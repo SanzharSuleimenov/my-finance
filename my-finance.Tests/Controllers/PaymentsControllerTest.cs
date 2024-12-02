@@ -9,7 +9,6 @@ using Xunit;
 
 namespace my_finance.Tests.Controllers;
 
-// list all payments
 // list current month payments
 // list payments history
 // get total history
@@ -41,7 +40,7 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public async void ShouldReturn_ListOfPayments()
+    public async void ShouldReturn_Ok200_ListOfPayments()
     {
         // given
         List<Payment> paymentsList = [];
@@ -56,5 +55,19 @@ public class PaymentsControllerTest
         resultValue.Value.Should().BeEquivalentTo(paymentsList);
     }
 
-
+    [Fact]
+    public async void ShouldReturn_Ok200_ListOfCurrentMonthPayments()
+    {
+        // given
+        List<Payment> paymentsList = [];
+        
+        // when
+        var result = await _controller.GetMonthly(DateTime.Now.Month);
+        
+        // then
+        result.Should().BeOfType<OkObjectResult>();
+        var resultValue = (OkObjectResult)result;
+        resultValue.Value.Should().BeOfType<List<Payment>>();
+        resultValue.Value.Should().BeEquivalentTo(paymentsList);
+    }
 }

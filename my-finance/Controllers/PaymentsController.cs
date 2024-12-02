@@ -30,4 +30,14 @@ public class PaymentsController: ControllerBase
     {
         return Ok(_payments);
     }
+
+    [HttpGet("/{month}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMonthly(int month)
+    {
+        var payments = _payments.FindAll(p => p.PaymentDate.Month == month)
+            .OrderByDescending(p => p.PaymentDate)
+            .ToList();
+        return Ok(payments);
+    }
 }
