@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using FluentAssertions;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using my_finance.Controllers;
 using my_finance.Models;
+using my_finance.Services;
 using Xunit;
 
 namespace my_finance.Tests.Controllers;
@@ -14,10 +16,12 @@ public class PaymentsControllerTest
 {
  
     private readonly PaymentsController _controller;
+    private readonly Mock<IPaymentService> _stubPaymentService;
 
     public PaymentsControllerTest()
     {
-        _controller = new PaymentsController();
+        _stubPaymentService = new Mock<IPaymentService>();
+        _controller = new PaymentsController(_stubPaymentService.Object);
     }
 
     [Fact]
@@ -25,6 +29,7 @@ public class PaymentsControllerTest
     {
         // given
         Payment payment = new("01", 2000, "AED", "HSBC", DateTime.Now);
+        
         // when
         var totalExpenses = await _controller.Add(payment);
         // then

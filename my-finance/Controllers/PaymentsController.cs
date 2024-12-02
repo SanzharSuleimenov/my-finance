@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using my_finance.Models;
+using my_finance.Services;
 
 namespace my_finance.Controllers;
 
@@ -13,6 +14,12 @@ public class PaymentsController: ControllerBase
 {
 
     private readonly List<Payment> _payments = [];
+    private readonly IPaymentService _paymentService;
+
+    public PaymentsController(IPaymentService paymentService)
+    {
+        _paymentService = paymentService;
+    }
 
     [HttpPost]
     [Consumes("application/json")]
