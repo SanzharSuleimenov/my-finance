@@ -9,8 +9,6 @@ using Xunit;
 
 namespace my_finance.Tests.Controllers;
 
-// get total in month
-// get total in current month
 [TestSubject(typeof(PaymentsController))]
 public class PaymentsControllerTest
 {
@@ -86,6 +84,19 @@ public class PaymentsControllerTest
     {
         // given & when
         var result = await _controller.GetMonthTotal(DateTime.Now.Month);
+        
+        // then
+        result.Should().BeOfType<OkObjectResult>();
+        var resultValue = (OkObjectResult)result;
+        resultValue.Value.Should().BeOfType<decimal>();
+        resultValue.Value.Should().Be(0);
+    }
+
+    [Fact]
+    public async void ShouldReturn_Ok200_CurrentMonthTotal()
+    {
+        // given & when
+        var result = await _controller.GetCurrentMonthTotal();
         
         // then
         result.Should().BeOfType<OkObjectResult>();

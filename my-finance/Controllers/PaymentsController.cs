@@ -54,4 +54,10 @@ public class PaymentsController: ControllerBase
     {
         return Ok(_payments.FindAll(p => p.PaymentDate.Month == month).Sum(p => p.Amount));
     }
+
+    [HttpGet("/total/currentMonth")]
+    public async Task<IActionResult> GetCurrentMonthTotal()
+    {
+        return Ok(_payments.FindAll(p => p.PaymentDate.Month == DateTime.Now.Month).Sum(p => p.Amount));
+    }
 }
