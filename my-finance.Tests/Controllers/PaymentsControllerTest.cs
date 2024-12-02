@@ -45,7 +45,9 @@ public class PaymentsControllerTest
     public async void ShouldReturn_Ok200_ListOfPayments()
     {
         // given
-        List<Payment> paymentsList = [];
+        List<Payment> paymentsList = [new("01", 2000, "AED", "HSBC", DateTime.Now), new("02", 2000, "AED", "HSBC", DateTime.Now)];
+        _stubPaymentService.Setup(s => s.ListAll())
+            .ReturnsAsync(paymentsList);
 
         // when
         var result = await _controller.AllPayments();

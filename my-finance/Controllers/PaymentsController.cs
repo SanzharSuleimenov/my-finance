@@ -34,7 +34,7 @@ public class PaymentsController: ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> AllPayments()
     {
-        return Ok(_payments);
+        return Ok(await _paymentService.ListAll());
     }
 
     [HttpGet("/{month}")]

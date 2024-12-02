@@ -12,4 +12,9 @@ public class PaymentService : IPaymentService
         _payments.Add(payment);
         return Task.FromResult(_payments.Sum(p => p.Amount));
     }
+
+    public Task<List<Payment>> ListAll()
+    {
+        return Task.FromResult(_payments);
+    }
 }
