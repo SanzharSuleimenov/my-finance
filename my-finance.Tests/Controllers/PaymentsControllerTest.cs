@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Mvc;
 using my_finance.Controllers;
 using my_finance.Models;
 using Xunit;
@@ -26,13 +27,20 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public void PaymentController_ShouldReturn_Ok()
+    public async void PaymentController_ShouldReturn_Ok()
     {
         // given
         Payment payment = new("01", 2000, "AED", "HSBC", DateTime.Now);
         // when
-        var totalExpenses = _controller.Add(payment).Result;
+        var totalExpenses = await _controller.Add(payment);
         // then
-        totalExpenses.Should().NotBeNull();
+        totalExpenses.Should().BeOfType<CreatedResult>();
+        var createdResult = (CreatedResult)totalExpenses;
+        createdResult.Value.Should().BeOfType<decimal>();
+        createdResult.Value.Should().Be(2000);
     }
+    
+    
+
+
 }
