@@ -28,6 +28,8 @@ public class PaymentsControllerTest
     {
         // given
         Payment payment = new("01", 2000, "AED", "HSBC", DateTime.Now);
+        _stubPaymentService.Setup(s => s.AddPayment(payment))
+            .ReturnsAsync(10000);
 
         // when
         var totalExpenses = await _controller.Add(payment);
@@ -36,7 +38,7 @@ public class PaymentsControllerTest
         totalExpenses.Should().BeOfType<CreatedResult>();
         var createdResult = (CreatedResult)totalExpenses;
         createdResult.Value.Should().BeOfType<decimal>();
-        createdResult.Value.Should().Be(2000);
+        createdResult.Value.Should().Be(10000);
     }
 
     [Fact]

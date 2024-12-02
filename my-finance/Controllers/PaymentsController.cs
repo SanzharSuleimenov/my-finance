@@ -26,8 +26,7 @@ public class PaymentsController: ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Add(Payment payment)
     {
-        _payments.Add(payment);
-        return Created("", _payments.Sum(p => p.Amount));
+        return Created("", await _paymentService.AddPayment(payment));
     }
 
 
