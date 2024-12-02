@@ -41,10 +41,17 @@ public class PaymentsController: ControllerBase
         return Ok(payments);
     }
 
-    [HttpGet]
+    [HttpGet("/total")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetTotal()
     {
         return Ok(_payments.Sum(p => p.Amount));
+    }
+
+    [HttpGet("/total/{month}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMonthTotal(int month)
+    {
+        return Ok(_payments.FindAll(p => p.PaymentDate.Month == month).Sum(p => p.Amount));
     }
 }
