@@ -14,7 +14,6 @@ namespace my_finance.Tests.Controllers;
 [TestSubject(typeof(PaymentsController))]
 public class PaymentsControllerTest
 {
- 
     private readonly PaymentsController _controller;
     private readonly Mock<IPaymentService> _stubPaymentService;
 
@@ -29,9 +28,10 @@ public class PaymentsControllerTest
     {
         // given
         Payment payment = new("01", 2000, "AED", "HSBC", DateTime.Now);
-        
+
         // when
         var totalExpenses = await _controller.Add(payment);
+
         // then
         totalExpenses.Should().BeOfType<CreatedResult>();
         var createdResult = (CreatedResult)totalExpenses;
@@ -44,10 +44,10 @@ public class PaymentsControllerTest
     {
         // given
         List<Payment> paymentsList = [];
-        
+
         // when
         var result = await _controller.AllPayments();
-        
+
         //then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
@@ -60,10 +60,10 @@ public class PaymentsControllerTest
     {
         // given
         List<Payment> paymentsList = [];
-        
+
         // when
         var result = await _controller.GetMonthly(DateTime.Now.Month);
-        
+
         // then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
@@ -76,7 +76,7 @@ public class PaymentsControllerTest
     {
         // given & when
         var result = await _controller.GetTotal();
-        
+
         // then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
@@ -89,7 +89,7 @@ public class PaymentsControllerTest
     {
         // given & when
         var result = await _controller.GetMonthTotal(DateTime.Now.Month);
-        
+
         // then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
@@ -102,7 +102,7 @@ public class PaymentsControllerTest
     {
         // given & when
         var result = await _controller.GetCurrentMonthTotal();
-        
+
         // then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
