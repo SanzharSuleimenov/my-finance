@@ -27,7 +27,7 @@ public class PaymentsControllerTest
     public async void ShouldReturn_Created201_AndTotalSum()
     {
         // given
-        Payment payment = new("01", 2000, "AED", "HSBC", DateTime.Now);
+        Payment payment = Instant();
         _stubPaymentService.Setup(s => s.AddPayment(payment)).ReturnsAsync(10000);
 
         // when
@@ -44,11 +44,7 @@ public class PaymentsControllerTest
     public async void ShouldReturn_Ok200_ListOfPayments()
     {
         // given
-        List<Payment> paymentsList =
-        [
-            new("01", 2000, "AED", "HSBC", DateTime.Now),
-            new("02", 2000, "AED", "HSBC", DateTime.Now),
-        ];
+        List<Payment> paymentsList = [Instant(), OldPayment()];
         _stubPaymentService.Setup(s => s.ListAll()).ReturnsAsync(paymentsList);
 
         // when
@@ -114,5 +110,15 @@ public class PaymentsControllerTest
         var resultValue = (OkObjectResult)result;
         resultValue.Value.Should().BeOfType<decimal>();
         resultValue.Value.Should().Be(0);
+    }
+
+    private static Payment Instant()
+    {
+        return new Payment("01", 2000, "AED", "HSBC", DateTime.Now);
+    }
+
+    private static Payment OldPayment()
+    {
+        return new("02", 2000, "AED", "HSBC", DateTime.Now.Subtract(TimeSpan.FromDays(1)));
     }
 }
