@@ -9,8 +9,6 @@ using Xunit;
 
 namespace my_finance.Tests.Controllers;
 
-// list current month payments
-// list payments history
 // get total history
 // get total in month
 // get total in current month
@@ -69,5 +67,18 @@ public class PaymentsControllerTest
         var resultValue = (OkObjectResult)result;
         resultValue.Value.Should().BeOfType<List<Payment>>();
         resultValue.Value.Should().BeEquivalentTo(paymentsList);
+    }
+
+    [Fact]
+    public async void ShouldReturn_Ok200_TotalLifetime()
+    {
+        // given & when
+        var result = await _controller.GetTotal();
+        
+        // then
+        result.Should().BeOfType<OkObjectResult>();
+        var resultValue = (OkObjectResult)result;
+        resultValue.Value.Should().BeOfType<decimal>();
+        resultValue.Value.Should().Be(0);
     }
 }

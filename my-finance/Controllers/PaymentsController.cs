@@ -40,4 +40,11 @@ public class PaymentsController: ControllerBase
             .ToList();
         return Ok(payments);
     }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetTotal()
+    {
+        return Ok(_payments.Sum(p => p.Amount));
+    }
 }
