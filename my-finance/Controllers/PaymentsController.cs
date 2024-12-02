@@ -41,10 +41,7 @@ public class PaymentsController: ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMonthly(int month)
     {
-        var payments = _payments.FindAll(p => p.PaymentDate.Month == month)
-            .OrderByDescending(p => p.PaymentDate)
-            .ToList();
-        return Ok(payments);
+        return Ok(await _paymentService.ListMonth(month));
     }
 
     [HttpGet("/total")]

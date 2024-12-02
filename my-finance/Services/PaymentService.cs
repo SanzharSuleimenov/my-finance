@@ -17,4 +17,9 @@ public class PaymentService : IPaymentService
     {
         return Task.FromResult(_payments);
     }
+
+    public Task<List<Payment>> ListMonth(int month)
+    {
+        return Task.FromResult(_payments.FindAll(p => p.PaymentDate.Month == month).ToList());
+    }
 }

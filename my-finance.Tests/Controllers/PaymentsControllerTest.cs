@@ -58,10 +58,11 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public async void ShouldReturn_Ok200_ListOfCurrentMonthPayments()
+    public async void ShouldReturn_Ok200_ListOfSpecificMonthPayments()
     {
         // given
-        List<Payment> paymentsList = [];
+        List<Payment> paymentsList = [Instant(), OldPayment()];
+        _stubPaymentService.Setup(s => s.ListMonth(DateTime.Now.Month)).ReturnsAsync(paymentsList);
 
         // when
         var result = await _controller.GetMonthly(DateTime.Now.Month);
@@ -73,6 +74,7 @@ public class PaymentsControllerTest
         resultValue.Value.Should().BeEquivalentTo(paymentsList);
     }
 
+    // TODO
     [Fact]
     public async void ShouldReturn_Ok200_TotalLifetime()
     {
@@ -86,6 +88,7 @@ public class PaymentsControllerTest
         resultValue.Value.Should().Be(0);
     }
 
+    // TODO
     [Fact]
     public async void ShouldReturn_Ok200_MonthTotal()
     {
@@ -99,6 +102,7 @@ public class PaymentsControllerTest
         resultValue.Value.Should().Be(0);
     }
 
+    // TODO
     [Fact]
     public async void ShouldReturn_Ok200_CurrentMonthTotal()
     {
