@@ -48,7 +48,7 @@ public class PaymentsController: ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetTotal()
     {
-        return Ok(_payments.Sum(p => p.Amount));
+        return Ok(await _paymentService.GetTotalLifetime());
     }
 
     [HttpGet("/total/{month}")]

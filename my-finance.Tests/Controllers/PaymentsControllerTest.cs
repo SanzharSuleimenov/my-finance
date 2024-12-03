@@ -74,18 +74,22 @@ public class PaymentsControllerTest
         resultValue.Value.Should().BeEquivalentTo(paymentsList);
     }
 
-    // TODO
     [Fact]
     public async void ShouldReturn_Ok200_TotalLifetime()
     {
-        // given & when
+        // given
+        const decimal totalExpenses = 30000;
+        _stubPaymentService.Setup(s => s.GetTotalLifetime())
+            .ReturnsAsync(totalExpenses);
+        
+        // when
         var result = await _controller.GetTotal();
 
         // then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
         resultValue.Value.Should().BeOfType<decimal>();
-        resultValue.Value.Should().Be(0);
+        resultValue.Value.Should().Be(totalExpenses);
     }
 
     // TODO

@@ -22,4 +22,9 @@ public class PaymentService : IPaymentService
     {
         return Task.FromResult(_payments.FindAll(p => p.PaymentDate.Month == month).ToList());
     }
+
+    public Task<decimal> GetTotalLifetime()
+    {
+        return Task.FromResult(_payments.Sum(p => p.Amount));
+    }
 }
