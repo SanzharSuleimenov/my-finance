@@ -9,4 +9,5 @@ public interface IPaymentService
     Task<List<Payment>> ListAll();
     Task<List<Payment>> ListMonth(int month);
     Task<decimal> GetTotalLifetime();
+    Task<decimal> GetMonthlyTotal(int month);
 }

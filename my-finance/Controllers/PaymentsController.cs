@@ -55,7 +55,7 @@ public class PaymentsController: ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMonthTotal(int month)
     {
-        return Ok(_payments.FindAll(p => p.PaymentDate.Month == month).Sum(p => p.Amount));
+        return Ok(await _paymentService.GetMonthlyTotal(month));
     }
 
     [HttpGet("/total/currentMonth")]

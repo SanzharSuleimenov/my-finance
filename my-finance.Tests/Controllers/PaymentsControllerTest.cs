@@ -97,13 +97,18 @@ public class PaymentsControllerTest
     public async Task ShouldReturn_Ok200_MonthTotal()
     {
         // given & when
+        const decimal monthlyExpenses = 26000;
+        _stubPaymentService.Setup(s => s.GetMonthlyTotal(DateTime.Now.Month))
+            .ReturnsAsync(monthlyExpenses);
+        
+        // when
         var result = await _controller.GetMonthTotal(DateTime.Now.Month);
 
         // then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
         resultValue.Value.Should().BeOfType<decimal>();
-        resultValue.Value.Should().Be(0);
+        resultValue.Value.Should().Be(monthlyExpenses);
     }
 
     // TODO
