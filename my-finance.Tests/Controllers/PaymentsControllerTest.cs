@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FluentAssertions;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public async void ShouldReturn_Created201_AndTotalSum()
+    public async Task ShouldReturn_Created201_AndTotalSum()
     {
         // given
         Payment payment = Instant();
@@ -41,7 +42,7 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public async void ShouldReturn_Ok200_ListOfPayments()
+    public async Task ShouldReturn_Ok200_ListOfPayments()
     {
         // given
         List<Payment> paymentsList = [Instant(), OldPayment()];
@@ -58,7 +59,7 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public async void ShouldReturn_Ok200_ListOfSpecificMonthPayments()
+    public async Task ShouldReturn_Ok200_ListOfSpecificMonthPayments()
     {
         // given
         List<Payment> paymentsList = [Instant(), OldPayment()];
@@ -75,7 +76,7 @@ public class PaymentsControllerTest
     }
 
     [Fact]
-    public async void ShouldReturn_Ok200_TotalLifetime()
+    public async Task ShouldReturn_Ok200_TotalLifetime()
     {
         // given
         const decimal totalExpenses = 30000;
@@ -92,9 +93,8 @@ public class PaymentsControllerTest
         resultValue.Value.Should().Be(totalExpenses);
     }
 
-    // TODO
     [Fact]
-    public async void ShouldReturn_Ok200_MonthTotal()
+    public async Task ShouldReturn_Ok200_MonthTotal()
     {
         // given & when
         var result = await _controller.GetMonthTotal(DateTime.Now.Month);
@@ -108,7 +108,7 @@ public class PaymentsControllerTest
 
     // TODO
     [Fact]
-    public async void ShouldReturn_Ok200_CurrentMonthTotal()
+    public async Task ShouldReturn_Ok200_CurrentMonthTotal()
     {
         // given & when
         var result = await _controller.GetCurrentMonthTotal();
