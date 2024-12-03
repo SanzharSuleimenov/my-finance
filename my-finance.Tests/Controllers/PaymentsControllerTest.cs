@@ -96,7 +96,7 @@ public class PaymentsControllerTest
     [Fact]
     public async Task ShouldReturn_Ok200_MonthTotal()
     {
-        // given & when
+        // given
         const decimal monthlyExpenses = 26000;
         _stubPaymentService.Setup(s => s.GetMonthlyTotal(DateTime.Now.Month))
             .ReturnsAsync(monthlyExpenses);
@@ -111,18 +111,22 @@ public class PaymentsControllerTest
         resultValue.Value.Should().Be(monthlyExpenses);
     }
 
-    // TODO
     [Fact]
     public async Task ShouldReturn_Ok200_CurrentMonthTotal()
     {
-        // given & when
+        // given
+        const decimal monthlyExpenses = 26000;
+        _stubPaymentService.Setup(s => s.GetMonthlyTotal(DateTime.Now.Month))
+            .ReturnsAsync(monthlyExpenses);
+        
+        // when
         var result = await _controller.GetCurrentMonthTotal();
 
         // then
         result.Should().BeOfType<OkObjectResult>();
         var resultValue = (OkObjectResult)result;
         resultValue.Value.Should().BeOfType<decimal>();
-        resultValue.Value.Should().Be(0);
+        resultValue.Value.Should().Be(monthlyExpenses);
     }
 
     private static Payment Instant()
